@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Twig Docs">
+  <rect width="64" height="64" rx="16" fill="#f6f8ef"/>
+  <path d="M45 12c-15 2-26 12-28 28 15-2 26-12 28-28Z" fill="#7a9f35"/>
+  <path d="M20 43c8-8 14-13 23-18" fill="none" stroke="#31451d" stroke-width="4" stroke-linecap="round"/>
+  <path d="M29 38c-4 1-7 1-12-1" fill="none" stroke="#b7d66d" stroke-width="4" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,94 @@
+---
+title: "``batch``"
+source: "https://github.com/twigphp/Twig/blob/ecb310e129f549daa3424f6565520bcc807d16f3/doc/filters/batch.rst"
+upstreamPath: "doc/filters/batch.rst"
+editLink: true
+vue: false
+---
+:::::: v-pre
+
+# ``batch``
+
+The `batch` filter "batches" items by returning a list of lists with the
+given number of items. A second parameter can be provided and used to fill in
+missing items:
+
+
+```twig
+{% set items = ['a', 'b', 'c', 'd'] %}
+
+<table>
+    {% for row in items|batch(3, 'No item') %}
+        <tr>
+            {% for index, column in row %}
+                <td>{{ index }} - {{ column }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+
+```
+
+The above example will be rendered as:
+
+
+```twig
+<table>
+    <tr>
+        <td>0 - a</td>
+        <td>1 - b</td>
+        <td>2 - c</td>
+    </tr>
+    <tr>
+        <td>3 - d</td>
+        <td>4 - No item</td>
+        <td>5 - No item</td>
+    </tr>
+</table>
+
+```
+
+If you choose to set the third parameter `preserve_keys` to `false`, the keys will be reset in each loop.
+
+
+```twig
+{% set items = ['a', 'b', 'c', 'd'] %}
+
+<table>
+    {% for row in items|batch(3, 'No item', false) %}
+        <tr>
+            {% for index, column in row %}
+                <td>{{ index }} - {{ column }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+
+```
+
+The above example will be rendered as:
+
+
+```twig
+<table>
+    <tr>
+        <td>0 - a</td>
+        <td>1 - b</td>
+        <td>2 - c</td>
+    </tr>
+    <tr>
+        <td>0 - d</td>
+        <td>1 - No item</td>
+        <td>2 - No item</td>
+    </tr>
+</table>
+
+```
+
+## Arguments
+
+* `size`: The size of the batch; fractional numbers will be rounded up
+* `fill`: Used to fill in missing items
+* `preserve_keys`: Whether to preserve keys or not (defaults to `true`)
+
+::::::

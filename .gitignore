@@ -1,0 +1,6 @@
+node_modules
+dist
+.vitepress/cache
+.vitepress/dist
+.sync-tmp
+.DS_Store

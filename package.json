@@ -1,0 +1,19 @@
+{
+  "name": "twig-docs",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs",
+    "sync": "tsx scripts/sync-twig-docs.ts",
+    "check": "npm run sync -- --check && npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3",
+    "vitepress": "^1.6.4"
+  }
+}
