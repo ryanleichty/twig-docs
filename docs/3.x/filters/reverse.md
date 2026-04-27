@@ -46,7 +46,7 @@ The `reverse` filter reverses a sequence, a mapping, or a string:
 >
 
 
-> **It also works with objects implementing the `Traversable`_ interface.**
+> **It also works with objects implementing the [Traversable](https://www.php.net/Traversable) interface.**
 >
 >
 

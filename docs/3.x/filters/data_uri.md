@@ -10,7 +10,7 @@ vue: false
 # ``data_uri``
 
 The `data_uri` filter generates a URL using the data scheme as defined in
-`RFC 2397`_:
+[RFC 2397](https://tools.ietf.org/html/rfc2397):
 
 
 ```twig

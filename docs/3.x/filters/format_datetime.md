@@ -74,7 +74,7 @@ Supported values are: `none`, `short`, `medium`, `long`, and `full`.
 >
 
 For greater flexibility, you can even define your own pattern
-(see the `ICU user guide`_ for supported patterns).
+(see the [ICU user guide](https://unicode-org.github.io/icu/userguide/format_parse/datetime/#datetime-format-syntax) for supported patterns).
 
 
 ```twig
@@ -152,7 +152,7 @@ $twig->getExtension(\Twig\Extension\CoreExtension::class)->setTimezone('Europe/P
 
 ## Arguments
 
-* `locale`: The locale code as defined in `RFC 5646`_
+* `locale`: The locale code as defined in [RFC 5646](https://www.rfc-editor.org/info/rfc5646)
 * `dateFormat`: The date format
 * `timeFormat`: The time format
 * `pattern`: A date time pattern

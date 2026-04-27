@@ -30,7 +30,7 @@ In this example, the `<br/>`, `<br>`, `<p>`, and `</p>` tags won't be
 removed from the string.
 
 
-> **Internally, Twig uses the PHP `strip_tags`_ function.**
+> **Internally, Twig uses the PHP [strip_tags](https://www.php.net/strip_tags) function.**
 >
 >
 

@@ -317,7 +317,7 @@ is accessible via the `loop.parent.loop.index` variable.
 >
 
 When a function/filter/test/tag is not defined, Twig defaults to throw a
-`\Twig\Error\SyntaxError` exception. However, it can also call a `callback`_
+`\Twig\Error\SyntaxError` exception. However, it can also call a [callback](https://www.php.net/manual/en/function.is-callable.php)
 (any valid PHP callable) which should return a function/filter/test/tag.
 
 For tags, register callbacks with `registerUndefinedTokenParserCallback()`.

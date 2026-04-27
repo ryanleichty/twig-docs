@@ -62,7 +62,7 @@ function (with a step of `1`, or `-1` if the start is greater than the end):
 ```
 
 
-> **The `range` function works as the native PHP `range`_ function.**
+> **The `range` function works as the native PHP [range](https://www.php.net/range) function.**
 >
 >
 

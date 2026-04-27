@@ -74,6 +74,6 @@ The `slug` filter uses the method by the same name in Symfony's
 ## Arguments
 
 * `separator`: The separator that is used to join words (defaults to `-`)
-* `locale`: The locale code of the original string as defined in `RFC 5646`_
+* `locale`: The locale code of the original string as defined in [RFC 5646](https://www.rfc-editor.org/info/rfc5646)
 
 ::::::

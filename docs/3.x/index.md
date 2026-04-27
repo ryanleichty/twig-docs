@@ -10,17 +10,17 @@ Browse the generated Twig 3.x documentation synced from the upstream Twig reposi
 
 ## Guides
 
-- [Extending Twig](/3.x/advanced)
-- [Twig for Developers](/3.x/api)
-- [Coding Standards](/3.x/coding_standards)
-- [Deprecated Features](/3.x/deprecated)
-- [Installation](/3.x/installation)
-- [Twig Internals](/3.x/internals)
 - [Introduction](/3.x/intro)
-- [Operators Precedence](/3.x/operators_precedence)
-- [Recipes](/3.x/recipes)
-- [Twig Sandbox](/3.x/sandbox)
+- [Installation](/3.x/installation)
 - [Twig for Template Designers](/3.x/templates)
+- [Twig for Developers](/3.x/api)
+- [Extending Twig](/3.x/advanced)
+- [Twig Sandbox](/3.x/sandbox)
+- [Twig Internals](/3.x/internals)
+- [Deprecated Features](/3.x/deprecated)
+- [Recipes](/3.x/recipes)
+- [Coding Standards](/3.x/coding_standards)
+- [Operators Precedence](/3.x/operators_precedence)
 ## Tags
 
 - [apply](/3.x/tags/apply)
@@ -46,23 +46,23 @@ Browse the generated Twig 3.x documentation synced from the upstream Twig reposi
 - [currency_name](/3.x/filters/currency_name)
 - [currency_symbol](/3.x/filters/currency_symbol)
 - [data_uri](/3.x/filters/data_uri)
-- [date_modify](/3.x/filters/date_modify)
 - [date](/3.x/filters/date)
+- [date_modify](/3.x/filters/date_modify)
 - [default](/3.x/filters/default)
 ## Functions
 
 - [attribute](/3.x/functions/attribute)
 - [block](/3.x/functions/block)
 - [constant](/3.x/functions/constant)
-- [country_names](/3.x/functions/country_names)
-- [country_timezones](/3.x/functions/country_timezones)
-- [currency_names](/3.x/functions/currency_names)
 - [cycle](/3.x/functions/cycle)
 - [date](/3.x/functions/date)
 - [dump](/3.x/functions/dump)
-- [enum_cases](/3.x/functions/enum_cases)
 - [enum](/3.x/functions/enum)
+- [enum_cases](/3.x/functions/enum_cases)
 - [html_attr](/3.x/functions/html_attr)
+- [html_classes](/3.x/functions/html_classes)
+- [html_cva](/3.x/functions/html_cva)
+- [include](/3.x/functions/include)
 ## Tests
 
 - [constant](/3.x/tests/constant)

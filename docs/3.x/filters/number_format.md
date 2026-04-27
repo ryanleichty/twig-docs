@@ -10,7 +10,7 @@ vue: false
 # ``number_format``
 
 The `number_format` filter formats numbers.  It is a wrapper around PHP's
-`number_format`_ function:
+[number_format](https://www.php.net/number_format) function:
 
 
 ```twig

@@ -1225,12 +1225,12 @@ class IntegrationTest extends IntegrationTestCase
 ```
 
 Fixtures examples can be found within the Twig repository
-`tests/Twig/Fixtures`_ directory.
+[tests/Twig/Fixtures](https://github.com/twigphp/Twig/tree/3.x/tests/Fixtures) directory.
 
 ### Node Tests
 
 Testing the node visitors can be complex, so extend your test cases from
 `\Twig\Test\NodeTestCase`. Examples can be found in the Twig repository
-`tests/Twig/Node`_ directory.
+[tests/Twig/Node](https://github.com/twigphp/Twig/tree/3.x/tests/Node) directory.
 
 ::::::

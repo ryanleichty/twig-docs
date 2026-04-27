@@ -59,6 +59,6 @@ By default, the filter uses the current locale. You can pass it explicitly:
 
 ## Arguments
 
-* `locale`: The locale code as defined in `RFC 5646`_
+* `locale`: The locale code as defined in [RFC 5646](https://www.rfc-editor.org/info/rfc5646)
 
 ::::::

@@ -20,7 +20,7 @@ The `lower` filter converts a value to lowercase:
 ```
 
 
-> **Internally, Twig uses the PHP `mb_strtolower`_ function.**
+> **Internally, Twig uses the PHP [mb_strtolower](https://www.php.net/manual/fr/function.mb-strtolower.php) function.**
 >
 >
 

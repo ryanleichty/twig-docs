@@ -48,7 +48,7 @@ read:
 ```
 
 
-> **Using a `pre` tag is not needed when `XDebug`_ is enabled and**
+> **Using a `pre` tag is not needed when [XDebug](https://xdebug.org/docs/display) is enabled and**
 >
 > `html_errors` is `on`; as a bonus, the output is also nicer with
 > XDebug enabled.
@@ -72,7 +72,7 @@ dumped:
 ```
 
 
-> **Internally, Twig uses the PHP `var_dump`_ function.**
+> **Internally, Twig uses the PHP [var_dump](https://www.php.net/var_dump) function.**
 >
 >
 

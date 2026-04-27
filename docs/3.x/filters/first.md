@@ -26,7 +26,7 @@ a string:
 ```
 
 
-> **It also works with objects implementing the `Traversable`_ interface.**
+> **It also works with objects implementing the [Traversable](https://www.php.net/manual/en/class.traversable.php) interface.**
 >
 >
 

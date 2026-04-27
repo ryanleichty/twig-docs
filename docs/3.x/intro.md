@@ -34,7 +34,7 @@ Slim, Yii, Laravel, and Codeigniter — just to name a few.
 
 > **Screencast**
 >
-> Like to learn from video tutorials? Check out the `SymfonyCasts Twig Tutorial`_!
+> Like to learn from video tutorials? Check out the [SymfonyCasts Twig Tutorial](https://symfonycasts.com/screencast/twig)!
 >
 
 ## Prerequisites

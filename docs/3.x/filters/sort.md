@@ -20,7 +20,7 @@ The `sort` filter sorts sequences and mappings:
 ```
 
 
-> **Internally, Twig uses the PHP `asort`_ function to maintain index**
+> **Internally, Twig uses the PHP [asort](https://www.php.net/asort) function to maintain index**
 >
 > association. It supports Traversable objects by transforming
 > those to arrays.
@@ -44,7 +44,7 @@ You can pass an arrow function to configure the sorting:
 
 ```
 
-Note the usage of the `spaceship`_ operator to simplify the comparison.
+Note the usage of the [spaceship](https://www.php.net/manual/en/language.operators.comparison.php) operator to simplify the comparison.
 
 ## Arguments
 

@@ -54,8 +54,8 @@ As syntactic sugar, you can also use the `[]` operator:
 
 ```
 
-The `slice` filter works as the `array_slice`_ PHP function for arrays and
-`mb_substr`_ for strings with a fallback to `substr`_.
+The `slice` filter works as the [array_slice](https://www.php.net/array_slice) PHP function for arrays and
+[mb_substr](https://www.php.net/mb-substr) for strings with a fallback to [substr](https://www.php.net/substr).
 
 If the start is non-negative, the sequence will start at that start in the
 variable. If start is negative, the sequence will start that far from the end
@@ -93,7 +93,7 @@ The argument `preserve_keys` is used to reset the index during the loop.
 ```
 
 
-> **It also works with objects implementing the `Traversable`_ interface.**
+> **It also works with objects implementing the [Traversable](https://www.php.net/manual/en/class.traversable.php) interface.**
 >
 >
 

@@ -18,7 +18,7 @@ The `flush` tag tells Twig to flush the output buffer:
 ```
 
 
-> **Internally, Twig uses the PHP `flush`_ function.**
+> **Internally, Twig uses the PHP [flush](https://www.php.net/flush) function.**
 >
 >
 

@@ -175,10 +175,10 @@ By default, the filter uses the current locale. You can pass it explicitly:
 
 * `currency`: The currency (ISO 4217 code)
 * `attrs`: A map of attributes
-* `locale`: The locale code as defined in `RFC 5646`_
+* `locale`: The locale code as defined in [RFC 5646](https://www.rfc-editor.org/info/rfc5646)
 
 
-> **Internally, Twig uses the PHP `NumberFormatter::formatCurrency`_ function.**
+> **Internally, Twig uses the PHP [NumberFormatter::formatCurrency](https://www.php.net/manual/en/numberformatter.formatcurrency.php) function.**
 >
 >
 

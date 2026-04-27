@@ -58,11 +58,11 @@ partition
 
 ## Arguments
 
-* `locale`: The locale of the original string (limited to languages supported by the from Symfony `inflector`_, part of the String component)
+* `locale`: The locale of the original string (limited to languages supported by the from Symfony [inflector](https://symfony.com/doc/current/components/string.html#inflector), part of the String component)
 * `all`: Whether to return all possible singulars as an array, default is `false`
 
 
-> **Internally, Twig uses the `singularize`_ method from the Symfony String component.**
+> **Internally, Twig uses the [singularize](https://symfony.com/doc/current/components/string.html#inflector) method from the Symfony String component.**
 >
 >
 

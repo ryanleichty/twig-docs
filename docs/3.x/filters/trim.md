@@ -33,7 +33,7 @@ and end of a string:
 ```
 
 
-> **Internally, Twig uses the PHP `trim`_, `ltrim`_, and `rtrim`_ functions.**
+> **Internally, Twig uses the PHP [trim](https://www.php.net/trim), [ltrim](https://www.php.net/ltrim), and [rtrim](https://www.php.net/rtrim) functions.**
 >
 >
 

@@ -92,7 +92,7 @@ documentation like `the OWASP prevention cheat sheet
 to learn more about this topic.
 
 
-> **Internally, `escape` uses the PHP native `htmlspecialchars`_ function**
+> **Internally, `escape` uses the PHP native [htmlspecialchars](https://www.php.net/htmlspecialchars) function**
 >
 > for the HTML escaping strategy.
 >

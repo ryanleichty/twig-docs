@@ -9,7 +9,7 @@ vue: false
 
 # Installation
 
-Install `Composer`_ and run the following command to get the latest version:
+Install [Composer](https://getcomposer.org/download/) and run the following command to get the latest version:
 
 
 ```bash

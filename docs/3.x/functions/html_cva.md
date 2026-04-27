@@ -15,8 +15,8 @@ vue: false
 > The `html_cva` function was added in Twig 3.12.
 >
 
-`CVA (Class Variant Authority)`_ is a concept from the JavaScript world and used
-by the well-known `shadcn/ui`_ library.
+[CVA (Class Variant Authority)](https://cva.style/docs/getting-started/variants) is a concept from the JavaScript world and used
+by the well-known [shadcn/ui](https://ui.shadcn.com) library.
 The CVA concept is used to render multiple variations of components, applying
 a set of conditions and recipes to dynamically compose CSS class strings (color, size, etc.),
 to create highly reusable and customizable templates.
@@ -70,7 +70,7 @@ Then use the `color` and `size` variants to select the needed classes:
 
 CVA work perfectly with Tailwind CSS. The only drawback is that you can have class conflicts.
 To "merge" conflicting classes together and keep only the ones you need, use the
-`tailwind_merge()` filter from `tales-from-a-dev/twig-tailwind-extra`_
+`tailwind_merge()` filter from [tales-from-a-dev/twig-tailwind-extra](https://github.com/tales-from-a-dev/twig-tailwind-extra)
 with the `html_cva()` function:
 
 
@@ -205,6 +205,6 @@ If no variants match, you can define a default set of classes to apply:
 >         $twig->addExtension(new HtmlExtension());
 >
 
-This function works best when used with `TwigComponent`_.
+This function works best when used with [TwigComponent](https://symfony.com/bundles/ux-twig-component/current/index.html).
 
 ::::::

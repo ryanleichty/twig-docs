@@ -26,7 +26,7 @@ mapping as query string:
 ```
 
 
-> **Internally, Twig uses the PHP `rawurlencode`_ or the `http_build_query`_ function.**
+> **Internally, Twig uses the PHP [rawurlencode](https://www.php.net/rawurlencode) or the [http_build_query](https://www.php.net/http_build_query) function.**
 >
 >
 

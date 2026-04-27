@@ -15,48 +15,48 @@ export const twigSidebar = [
     "collapsed": false,
     "items": [
       {
-        "text": "Extending Twig",
-        "link": "/3.x/advanced"
-      },
-      {
-        "text": "Twig for Developers",
-        "link": "/3.x/api"
-      },
-      {
-        "text": "Coding Standards",
-        "link": "/3.x/coding_standards"
-      },
-      {
-        "text": "Deprecated Features",
-        "link": "/3.x/deprecated"
+        "text": "Introduction",
+        "link": "/3.x/intro"
       },
       {
         "text": "Installation",
         "link": "/3.x/installation"
       },
       {
-        "text": "Twig Internals",
-        "link": "/3.x/internals"
+        "text": "Twig for Template Designers",
+        "link": "/3.x/templates"
       },
       {
-        "text": "Introduction",
-        "link": "/3.x/intro"
+        "text": "Twig for Developers",
+        "link": "/3.x/api"
       },
       {
-        "text": "Operators Precedence",
-        "link": "/3.x/operators_precedence"
-      },
-      {
-        "text": "Recipes",
-        "link": "/3.x/recipes"
+        "text": "Extending Twig",
+        "link": "/3.x/advanced"
       },
       {
         "text": "Twig Sandbox",
         "link": "/3.x/sandbox"
       },
       {
-        "text": "Twig for Template Designers",
-        "link": "/3.x/templates"
+        "text": "Twig Internals",
+        "link": "/3.x/internals"
+      },
+      {
+        "text": "Deprecated Features",
+        "link": "/3.x/deprecated"
+      },
+      {
+        "text": "Recipes",
+        "link": "/3.x/recipes"
+      },
+      {
+        "text": "Coding Standards",
+        "link": "/3.x/coding_standards"
+      },
+      {
+        "text": "Operators Precedence",
+        "link": "/3.x/operators_precedence"
       }
     ]
   },
@@ -195,12 +195,12 @@ export const twigSidebar = [
         "link": "/3.x/filters/data_uri"
       },
       {
-        "text": "date_modify",
-        "link": "/3.x/filters/date_modify"
-      },
-      {
         "text": "date",
         "link": "/3.x/filters/date"
+      },
+      {
+        "text": "date_modify",
+        "link": "/3.x/filters/date_modify"
       },
       {
         "text": "default",
@@ -223,6 +223,10 @@ export const twigSidebar = [
         "link": "/3.x/filters/first"
       },
       {
+        "text": "format",
+        "link": "/3.x/filters/format"
+      },
+      {
         "text": "format_currency",
         "link": "/3.x/filters/format_currency"
       },
@@ -243,10 +247,6 @@ export const twigSidebar = [
         "link": "/3.x/filters/format_time"
       },
       {
-        "text": "format",
-        "link": "/3.x/filters/format"
-      },
-      {
         "text": "html_attr_merge",
         "link": "/3.x/filters/html_attr_merge"
       },
@@ -259,12 +259,12 @@ export const twigSidebar = [
         "link": "/3.x/filters/html_to_markdown"
       },
       {
-        "text": "inky_to_html",
-        "link": "/3.x/filters/inky_to_html"
-      },
-      {
         "text": "inline_css",
         "link": "/3.x/filters/inline_css"
+      },
+      {
+        "text": "inky_to_html",
+        "link": "/3.x/filters/inky_to_html"
       },
       {
         "text": "invoke",
@@ -421,18 +421,6 @@ export const twigSidebar = [
         "link": "/3.x/functions/constant"
       },
       {
-        "text": "country_names",
-        "link": "/3.x/functions/country_names"
-      },
-      {
-        "text": "country_timezones",
-        "link": "/3.x/functions/country_timezones"
-      },
-      {
-        "text": "currency_names",
-        "link": "/3.x/functions/currency_names"
-      },
-      {
         "text": "cycle",
         "link": "/3.x/functions/cycle"
       },
@@ -445,12 +433,12 @@ export const twigSidebar = [
         "link": "/3.x/functions/dump"
       },
       {
-        "text": "enum_cases",
-        "link": "/3.x/functions/enum_cases"
-      },
-      {
         "text": "enum",
         "link": "/3.x/functions/enum"
+      },
+      {
+        "text": "enum_cases",
+        "link": "/3.x/functions/enum_cases"
       },
       {
         "text": "html_attr",
@@ -467,14 +455,6 @@ export const twigSidebar = [
       {
         "text": "include",
         "link": "/3.x/functions/include"
-      },
-      {
-        "text": "language_names",
-        "link": "/3.x/functions/language_names"
-      },
-      {
-        "text": "locale_names",
-        "link": "/3.x/functions/locale_names"
       },
       {
         "text": "max",
@@ -497,20 +477,40 @@ export const twigSidebar = [
         "link": "/3.x/functions/range"
       },
       {
-        "text": "script_names",
-        "link": "/3.x/functions/script_names"
-      },
-      {
         "text": "source",
         "link": "/3.x/functions/source"
       },
       {
-        "text": "template_from_string",
-        "link": "/3.x/functions/template_from_string"
+        "text": "country_timezones",
+        "link": "/3.x/functions/country_timezones"
+      },
+      {
+        "text": "country_names",
+        "link": "/3.x/functions/country_names"
+      },
+      {
+        "text": "currency_names",
+        "link": "/3.x/functions/currency_names"
+      },
+      {
+        "text": "language_names",
+        "link": "/3.x/functions/language_names"
+      },
+      {
+        "text": "locale_names",
+        "link": "/3.x/functions/locale_names"
+      },
+      {
+        "text": "script_names",
+        "link": "/3.x/functions/script_names"
       },
       {
         "text": "timezone_names",
         "link": "/3.x/functions/timezone_names"
+      },
+      {
+        "text": "template_from_string",
+        "link": "/3.x/functions/template_from_string"
       }
     ]
   },

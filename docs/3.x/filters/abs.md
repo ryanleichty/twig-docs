@@ -22,7 +22,7 @@ The `abs` filter returns the absolute value.
 ```
 
 
-> **Internally, Twig uses the PHP `abs`_ function.**
+> **Internally, Twig uses the PHP [abs](https://www.php.net/abs) function.**
 >
 >
 

@@ -17,12 +17,12 @@ The `date` filter formats a date to a given format:
 
 ```
 
-The format specifier is the same as supported by `date`_,
-except when the filtered data is of type `DateInterval`_, when the format must conform to
-`DateInterval::format`_ instead.
+The format specifier is the same as supported by [date](https://www.php.net/date),
+except when the filtered data is of type [DateInterval](https://www.php.net/DateInterval), when the format must conform to
+[DateInterval::format](https://www.php.net/DateInterval.format) instead.
 
 The `date` filter accepts strings (it must be in a format supported by the
-`strtotime`_ function), `DateTime`_ instances, or `DateInterval`_ instances. For
+[strtotime](https://www.php.net/strtotime) function), [DateTime](https://www.php.net/DateTime) instances, or [DateInterval](https://www.php.net/DateInterval) instances. For
 instance, to display the current date, filter the word "now":
 
 
@@ -65,7 +65,7 @@ $twig->getExtension(\Twig\Extension\CoreExtension::class)->setDateFormat('d/m/Y'
 
 By default, the date is displayed by applying the default timezone (the one
 specified in php.ini or declared in Twig -- see below), but you can override
-it by explicitly specifying a supported `timezone`_:
+it by explicitly specifying a supported [timezone](https://www.php.net/manual/en/timezones.php):
 
 
 ```twig

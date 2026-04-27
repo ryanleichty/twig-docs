@@ -23,7 +23,7 @@ array.
 ```
 
 
-> **Internally, Twig uses the PHP `array_column`_ function.**
+> **Internally, Twig uses the PHP [array_column](https://www.php.net/array_column) function.**
 >
 >
 

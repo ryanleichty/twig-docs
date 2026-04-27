@@ -19,7 +19,7 @@ Converts an argument to a date to allow date comparison:
 
 ```
 
-The argument must be in one of PHP's supported `date and time formats`_.
+The argument must be in one of PHP's supported [date and time formats](https://www.php.net/manual/en/datetime.formats.php).
 
 You can pass a timezone as the second argument:
 

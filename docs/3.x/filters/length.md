@@ -20,7 +20,7 @@ it will return the length of the string provided by that method.
 
 For objects that implement the `Traversable` interface, `length` will use the return value of the `iterator_count()` method.
 
-For strings, `mb_strlen()`_ is used.
+For strings, [mb_strlen()](https://www.php.net/manual/function.mb-strlen.php) is used.
 
 
 ```twig

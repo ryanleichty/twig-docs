@@ -122,6 +122,6 @@ $twig->addFilter(new \Twig\TwigFilter('custom', function (\Closure $callable) {
 
 ```
 
-Any PHP callable can easily be converted to a closure by using the `first-class callable syntax`_.
+Any PHP callable can easily be converted to a closure by using the [first-class callable syntax](https://www.php.net/manual/en/functions.first_class_callable_syntax.php).
 
 ::::::

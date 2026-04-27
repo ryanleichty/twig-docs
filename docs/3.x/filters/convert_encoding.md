@@ -20,7 +20,7 @@ is the input charset:
 ```
 
 
-> **This filter relies on the `iconv`_ extension.**
+> **This filter relies on the [iconv](https://www.php.net/iconv) extension.**
 >
 >
 

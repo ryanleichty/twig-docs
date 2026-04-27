@@ -18,13 +18,13 @@ The `json_encode` filter returns the JSON representation of a value:
 ```
 
 
-> **Internally, Twig uses the PHP `json_encode`_ function.**
+> **Internally, Twig uses the PHP [json_encode](https://www.php.net/json_encode) function.**
 >
 >
 
 ## Arguments
 
-* `options`: A bitmask of `json_encode options`_: ``&#123;&#123;
+* `options`: A bitmask of [json_encode options](https://www.php.net/manual/en/json.constants.php): ``&#123;&#123;
   data|json_encode(constant('JSON_PRETTY_PRINT')) &#125;&#125;``.
   Combine constants using `bitwise operators`:
   `&#123;&#123; data|json_encode(constant('JSON_PRETTY_PRINT') b-or constant('JSON_HEX_QUOT')) &#125;&#125;`

@@ -27,7 +27,7 @@ when you want to iterate over the keys of a sequence or a mapping:
 ```
 
 
-> **Internally, Twig uses the PHP `array_keys`_ function.**
+> **Internally, Twig uses the PHP [array_keys](https://www.php.net/array_keys) function.**
 >
 >
 

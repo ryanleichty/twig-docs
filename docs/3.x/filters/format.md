@@ -10,7 +10,7 @@ vue: false
 # ``format``
 
 The `format` filter formats a given string by replacing the placeholders
-(placeholders follows the `sprintf`_ notation):
+(placeholders follows the [sprintf](https://www.php.net/sprintf) notation):
 
 
 ```twig

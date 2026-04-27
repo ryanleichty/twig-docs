@@ -41,7 +41,7 @@ the [format_datetime](format_datetime) filter, but without the date.
 
 ## Arguments
 
-* `locale`: The locale code as defined in `RFC 5646`_
+* `locale`: The locale code as defined in [RFC 5646](https://www.rfc-editor.org/info/rfc5646)
 * `timeFormat`: The time format
 * `pattern`: A date time pattern
 * `timezone`: The date timezone

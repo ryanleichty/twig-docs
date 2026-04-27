@@ -21,6 +21,7 @@ type Page = {
   sourcePath: string;
   outputPath: string;
   title: string;
+  order: number;
 };
 
 type ConversionResult = {
@@ -28,6 +29,8 @@ type ConversionResult = {
   title: string;
   warnings: string[];
 };
+
+type ReferenceLinks = Map<string, string>;
 
 type SidebarItem = {
   text: string;
@@ -93,6 +96,7 @@ async function generateDocs(sourceDir: string, outputRoot: string, commit: strin
     .filter((file) => file.endsWith('.rst') && path.basename(file) !== 'index.rst')
     .sort((a, b) => a.localeCompare(b));
 
+  const navigationOrder = await buildNavigationOrder(sourceDir);
   const pages: Page[] = [];
   const warnings: string[] = [];
 
@@ -113,8 +117,14 @@ async function generateDocs(sourceDir: string, outputRoot: string, commit: strin
       ''
     ].join('\n');
 
-    await writeTextFile(outputPath, `${frontmatter}:::::: v-pre\n\n${result.markdown}\n::::::\n`);
-    pages.push({ sourcePath: relativeSource, outputPath: relativeOutput, title: result.title });
+    const markdown = ensurePageHeading(result.markdown, result.title);
+    await writeTextFile(outputPath, `${frontmatter}:::::: v-pre\n\n${markdown}\n::::::\n`);
+    pages.push({
+      sourcePath: relativeSource,
+      outputPath: relativeOutput,
+      title: result.title,
+      order: navigationOrder.get(relativeSource) ?? Number.MAX_SAFE_INTEGER
+    });
     warnings.push(...result.warnings.map((warning) => `${relativeSource}: ${warning}`));
   }
 
@@ -144,6 +154,94 @@ async function listFiles(dir: string): Promise<string[]> {
   return files.flat();
 }
 
+async function buildNavigationOrder(sourceDir: string) {
+  const order = new Map<string, number>();
+  const visitedIndexes = new Set<string>();
+  let nextOrder = 0;
+
+  async function visitIndex(indexFile: string) {
+    if (visitedIndexes.has(indexFile) || !existsSync(indexFile)) {
+      return;
+    }
+
+    visitedIndexes.add(indexFile);
+
+    for (const target of parseToctreeEntries(await readFile(indexFile, 'utf8'))) {
+      const resolvedPath = resolveToctreeEntry(path.dirname(indexFile), target);
+
+      if (!resolvedPath.startsWith(sourceDir)) {
+        continue;
+      }
+
+      if (path.basename(resolvedPath) === 'index.rst') {
+        await visitIndex(resolvedPath);
+        continue;
+      }
+
+      const relativeSource = path.relative(sourceDir, resolvedPath);
+      if (!order.has(relativeSource)) {
+        order.set(relativeSource, nextOrder);
+        nextOrder += 1;
+      }
+    }
+  }
+
+  await visitIndex(path.join(sourceDir, 'index.rst'));
+
+  const remainingIndexes = (await listFiles(sourceDir))
+    .filter((file) => path.basename(file) === 'index.rst')
+    .sort((a, b) => a.localeCompare(b));
+
+  for (const indexFile of remainingIndexes) {
+    await visitIndex(indexFile);
+  }
+
+  return order;
+}
+
+function parseToctreeEntries(source: string) {
+  const lines = source.replace(/\r\n/g, '\n').split('\n');
+  const entries: string[] = [];
+
+  for (let i = 0; i < lines.length; i += 1) {
+    const directive = lines[i]?.trim().match(/^\.\. toctree::/);
+    if (!directive) {
+      continue;
+    }
+
+    const directiveIndent = indentation(lines[i] ?? '');
+
+    for (i += 1; i < lines.length; i += 1) {
+      const line = lines[i] ?? '';
+      const trimmed = line.trim();
+
+      if (trimmed === '') {
+        continue;
+      }
+
+      if (indentation(line) <= directiveIndent) {
+        i -= 1;
+        break;
+      }
+
+      if (trimmed.startsWith(':')) {
+        continue;
+      }
+
+      const titledEntry = trimmed.match(/^.+<(.+)>$/);
+      entries.push((titledEntry?.[1] ?? trimmed.split(/\s+/)[0]).trim());
+    }
+  }
+
+  return entries;
+}
+
+function resolveToctreeEntry(baseDir: string, entry: string) {
+  const cleanEntry = entry.replace(/\.rst$/, '');
+  const resolved = path.resolve(baseDir, cleanEntry);
+  return resolved.endsWith('/index') ? `${resolved}.rst` : `${resolved}.rst`;
+}
+
 async function expandIncludes(source: string, currentDir: string, sourceRoot: string, seen: Set<string>): Promise<string> {
   const lines = source.replace(/\r\n/g, '\n').split('\n');
   const expanded: string[] = [];
@@ -168,7 +266,9 @@ async function expandIncludes(source: string, currentDir: string, sourceRoot: st
 }
 
 function convertRstToMarkdown(source: string, sourcePath: string): ConversionResult {
-  const lines = normalizeRstSource(source).split('\n');
+  const normalizedSource = normalizeRstSource(source);
+  const referenceLinks = extractReferenceLinks(normalizedSource);
+  const lines = normalizedSource.split('\n');
   const out: string[] = [];
   const warnings: string[] = [];
   const headingLevels = new Map<string, number>();
@@ -203,6 +303,13 @@ function convertRstToMarkdown(source: string, sourcePath: string): ConversionRes
       continue;
     }
 
+    if (isGridTableStart(lines, i)) {
+      const table = readGridTable(lines, i, referenceLinks);
+      out.push(...table.markdown);
+      i = table.end;
+      continue;
+    }
+
     const directive = trimmed.match(/^\.\. ([a-zA-Z0-9_-]+)::\s*(.*)$/);
     if (directive) {
       const [, name, rest] = directive;
@@ -215,7 +322,7 @@ function convertRstToMarkdown(source: string, sourcePath: string): ConversionRes
 
       if (['note', 'warning', 'caution', 'tip', 'important', 'seealso'].includes(name)) {
         const block = readDirectiveBlock(lines, i);
-        out.push(...renderAdmonition(name, rest, block.body));
+        out.push(...renderAdmonition(name, rest, block.body, referenceLinks));
         i = block.end;
         continue;
       }
@@ -223,21 +330,21 @@ function convertRstToMarkdown(source: string, sourcePath: string): ConversionRes
       if (name === 'versionadded' || name === 'versionchanged') {
         const block = readDirectiveBlock(lines, i);
         const label = name === 'versionadded' ? 'Added' : 'Changed';
-        out.push(...renderAdmonition('note', `${label} in Twig ${rest.trim()}`, block.body));
+        out.push(...renderAdmonition('note', `${label} in Twig ${rest.trim()}`, block.body, referenceLinks));
         i = block.end;
         continue;
       }
 
       if (name === 'deprecated') {
         const block = readDirectiveBlock(lines, i);
-        out.push(...renderAdmonition('warning', `Deprecated since Twig ${rest.trim()}`, block.body));
+        out.push(...renderAdmonition('warning', `Deprecated since Twig ${rest.trim()}`, block.body, referenceLinks));
         i = block.end;
         continue;
       }
 
       if (name === 'admonition' || name === 'sidebar') {
         const block = readDirectiveBlock(lines, i);
-        out.push(...renderAdmonition('note', rest, block.body));
+        out.push(...renderAdmonition('note', rest, block.body, referenceLinks));
         i = block.end;
         continue;
       }
@@ -271,7 +378,7 @@ function convertRstToMarkdown(source: string, sourcePath: string): ConversionRes
       if (block.body.length > 0) {
         const prefix = line.replace(/::\s*$/, ':');
         if (prefix.trim() !== ':') {
-          out.push(convertInlineMarkup(prefix));
+          out.push(convertInlineMarkup(prefix, referenceLinks));
         }
         out.push(...renderCodeBlock(inferCodeLanguage(block.body), block.body));
         i = block.end;
@@ -279,7 +386,7 @@ function convertRstToMarkdown(source: string, sourcePath: string): ConversionRes
       }
     }
 
-    out.push(convertInlineMarkup(line));
+    out.push(convertInlineMarkup(line, referenceLinks));
   }
 
   return {
@@ -293,6 +400,22 @@ function normalizeRstSource(source: string) {
   return source
     .replace(/\r\n/g, '\n')
     .replace(/:([a-zA-Z0-9_-]+):`([^`\n]+)\n\s*<([^`]+)>`/g, ':$1:`$2 <$3>`');
+}
+
+function extractReferenceLinks(source: string): ReferenceLinks {
+  const links: ReferenceLinks = new Map();
+  const matches = source.matchAll(/^\.\. _(.+?):[ \t]+(\S.*)$/gm);
+
+  for (const match of matches) {
+    const [, label, url] = match;
+    links.set(normalizeReferenceLabel(label), url.trim());
+  }
+
+  return links;
+}
+
+function normalizeReferenceLabel(label: string) {
+  return label.trim().replace(/^`|`$/g, '').replace(/\s+/g, ' ').toLowerCase();
 }
 
 function isOverlineHeading(lines: string[], index: number) {
@@ -310,6 +433,98 @@ function isUnderlineHeading(lines: string[], index: number) {
 
 function isHeadingMarker(value: string) {
   return /^([=\-~`^"'#*+])\1{2,}$/.test(value);
+}
+
+function isGridTableStart(lines: string[], index: number) {
+  return isGridSeparator(lines[index] ?? '') &&
+    isGridRow(lines[index + 1] ?? '') &&
+    isGridSeparator(lines[index + 2] ?? '');
+}
+
+function isGridSeparator(line: string) {
+  return /^\+[-=+]+\+$/.test(line.trim());
+}
+
+function isGridRow(line: string) {
+  return /^\|.*\|$/.test(line.trim());
+}
+
+function readGridTable(lines: string[], start: number, referenceLinks: ReferenceLinks) {
+  const columns = gridColumns(lines[start] ?? '');
+  const rows: string[][] = [];
+  let headerIndex = -1;
+  let cursor = start;
+  let end = start;
+
+  while (cursor < lines.length && isGridSeparator(lines[cursor] ?? '')) {
+    const rowLines: string[] = [];
+    let next = cursor + 1;
+
+    while (next < lines.length && isGridRow(lines[next] ?? '')) {
+      rowLines.push(lines[next] ?? '');
+      next += 1;
+    }
+
+    if (rowLines.length === 0 || !isGridSeparator(lines[next] ?? '')) {
+      end = cursor;
+      break;
+    }
+
+    rows.push(parseGridRow(rowLines, columns, referenceLinks));
+
+    if ((lines[next] ?? '').includes('=')) {
+      headerIndex = rows.length - 1;
+    }
+
+    end = next;
+    cursor = next;
+  }
+
+  const header = headerIndex >= 0 ? rows[headerIndex] : rows.shift();
+  const bodyRows = headerIndex >= 0 ? rows.filter((_, index) => index !== headerIndex) : rows;
+
+  return {
+    end,
+    markdown: [
+      '',
+      renderMarkdownTableRow(header ?? []),
+      renderMarkdownTableRow((header ?? []).map(() => '---')),
+      ...bodyRows.map(renderMarkdownTableRow),
+      ''
+    ]
+  };
+}
+
+function gridColumns(separator: string) {
+  const indexes: number[] = [];
+
+  for (let i = 0; i < separator.length; i += 1) {
+    if (separator[i] === '+') {
+      indexes.push(i);
+    }
+  }
+
+  return indexes;
+}
+
+function parseGridRow(rowLines: string[], columns: number[], referenceLinks: ReferenceLinks) {
+  return columns.slice(0, -1).map((start, index) => {
+    const end = columns[index + 1] ?? start;
+    const content = rowLines
+      .map((line) => line.padEnd(end).slice(start + 1, end).trim())
+      .filter(Boolean)
+      .join('<br>');
+
+    return convertInlineMarkup(content, referenceLinks);
+  });
+}
+
+function renderMarkdownTableRow(cells: string[]) {
+  return `| ${cells.map(escapeMarkdownTableCell).join(' | ')} |`;
+}
+
+function escapeMarkdownTableCell(cell: string) {
+  return cell.replace(/\|/g, '\\|');
 }
 
 function headingLevel(marker: string, levels: Map<string, number>, create: () => number) {
@@ -416,21 +631,21 @@ function inferCodeLanguage(body: string[]) {
   return '';
 }
 
-function renderAdmonition(name: string, rest: string, body: string[]) {
+function renderAdmonition(name: string, rest: string, body: string[], referenceLinks: ReferenceLinks) {
   const type = name === 'warning' || name === 'caution' ? 'warning' : name === 'tip' ? 'tip' : 'info';
   const content = [rest.trim(), ...body].filter((line, index) => index !== 0 || line.length > 0);
   const title = content.shift();
   const label = type === 'warning' ? 'Warning' : type === 'tip' ? 'Tip' : 'Note';
   return [
     '',
-    `> **${title ? convertInlineMarkup(title) : label}**`,
+    `> **${title ? convertInlineMarkup(title, referenceLinks) : label}**`,
     '>',
-    ...convertBodyLines(content).map((line) => line.length > 0 ? `> ${line}` : '>'),
+    ...convertBodyLines(content, referenceLinks).map((line) => line.length > 0 ? `> ${line}` : '>'),
     ''
   ];
 }
 
-function convertBodyLines(lines: string[]) {
+function convertBodyLines(lines: string[], referenceLinks: ReferenceLinks) {
   const out: string[] = [];
 
   for (let i = 0; i < lines.length; i += 1) {
@@ -445,7 +660,7 @@ function convertBodyLines(lines: string[]) {
       continue;
     }
 
-    out.push(convertInlineMarkup(line));
+    out.push(convertInlineMarkup(line, referenceLinks));
   }
 
   return out;
@@ -464,10 +679,14 @@ function indentation(line: string) {
   return line.match(/^ */)?.[0].length ?? 0;
 }
 
-function convertInlineMarkup(line: string) {
+function convertInlineMarkup(line: string, referenceLinks: ReferenceLinks) {
   return line
     .replace(/`([^`<]+?)\s*<((?:https?:\/\/|mailto:)[^>]+)>`_/g, '[$1]($2)')
     .replace(/`([^`<]+?)\s*<([^>]+)>`_/g, (_match, text: string, target: string) => `[${text}](${normalizeDocLink(target)})`)
+    .replace(/`([^`]+)`_/g, (match, label: string) => {
+      const url = referenceLinks.get(normalizeReferenceLabel(label));
+      return url ? `[${label}](${url})` : match;
+    })
     .replace(/:doc:`([^`<]+?)\s*<([^>]+)>`/g, (_match, text: string, target: string) => `[${text}](${normalizeDocLink(target)})`)
     .replace(/:doc:`([^`]+)`/g, (_match, target: string) => `[${target}](${normalizeDocLink(target)})`)
     .replace(/:(?:ref|class|func|filter|tag|test|operator|option|method|const|attr):`([^`<]+?)\s*<([^>]+)>`/g, '`$1`')
@@ -511,6 +730,14 @@ function normalizeBlankLines(lines: string[]) {
   return normalized;
 }
 
+function ensurePageHeading(markdown: string, title: string) {
+  if (/^#\s+/m.test(markdown)) {
+    return markdown;
+  }
+
+  return `# ${title}\n\n${markdown}`;
+}
+
 function titleFromPath(sourcePath: string) {
   const base = path.basename(sourcePath, '.rst');
   if (base === 'index') {
@@ -541,12 +768,12 @@ function buildSidebar(pages: Page[]): SidebarItem[] {
     }
   ];
 
-  for (const [group, groupPages] of [...groups.entries()].sort(([a], [b]) => sortGroups(a, b))) {
+  for (const [group, groupPages] of [...groups.entries()].sort(compareGroups)) {
     sidebar.push({
       text: titleFromPath(`${group}.rst`),
       collapsed: group !== 'Guides',
       items: groupPages
-        .sort((a, b) => a.outputPath.localeCompare(b.outputPath))
+        .sort(comparePages)
         .map((page) => ({
           text: plainTitle(page.title),
           link: pageLink(page.outputPath)
@@ -555,6 +782,25 @@ function buildSidebar(pages: Page[]): SidebarItem[] {
   }
 
   return sidebar;
+}
+
+function compareGroups([aGroup, aPages]: [string, Page[]], [bGroup, bPages]: [string, Page[]]) {
+  const aOrder = Math.min(...aPages.map((page) => page.order));
+  const bOrder = Math.min(...bPages.map((page) => page.order));
+
+  if (aOrder !== bOrder) {
+    return aOrder - bOrder;
+  }
+
+  return sortGroups(aGroup, bGroup);
+}
+
+function comparePages(a: Page, b: Page) {
+  if (a.order !== b.order) {
+    return a.order - b.order;
+  }
+
+  return a.outputPath.localeCompare(b.outputPath);
 }
 
 async function writeVersionIndex(outputRoot: string, pages: Page[], commit: string) {

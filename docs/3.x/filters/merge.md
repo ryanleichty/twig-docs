@@ -54,7 +54,7 @@ overridden:
 >
 
 
-> **Internally, Twig uses the PHP `array_merge`_ function. It supports**
+> **Internally, Twig uses the PHP [array_merge](https://www.php.net/array_merge) function. It supports**
 >
 > Traversable objects by transforming those to arrays.
 >
