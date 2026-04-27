@@ -599,8 +599,7 @@ file_put_contents('/path/to/profile.prof', $dumper->dump($profile));
 
 ```
 
-Upload the profile to visualize it (create a `free account
-<https://blackfire.io/signup?utm_source=twig&utm_medium=doc&utm_campaign=profiler>`_
+Upload the profile to visualize it (create a [free account](https://blackfire.io/signup?utm_source=twig&utm_medium=doc&utm_campaign=profiler)
 first):
 
 

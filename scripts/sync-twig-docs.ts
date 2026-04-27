@@ -310,6 +310,13 @@ function convertRstToMarkdown(source: string, sourcePath: string): ConversionRes
       continue;
     }
 
+    if (isSimpleTableStart(lines, i)) {
+      const table = readSimpleTable(lines, i, referenceLinks);
+      out.push(...table.markdown);
+      i = table.end;
+      continue;
+    }
+
     const directive = trimmed.match(/^\.\. ([a-zA-Z0-9_-]+)::\s*(.*)$/);
     if (directive) {
       const [, name, rest] = directive;
@@ -399,6 +406,7 @@ function convertRstToMarkdown(source: string, sourcePath: string): ConversionRes
 function normalizeRstSource(source: string) {
   return source
     .replace(/\r\n/g, '\n')
+    .replace(/`([^`<\n]+)\n\s*<((?:https?:\/\/|mailto:)[^>]+)>`_/g, '`$1 <$2>`_')
     .replace(/:([a-zA-Z0-9_-]+):`([^`\n]+)\n\s*<([^`]+)>`/g, ':$1:`$2 <$3>`');
 }
 
@@ -525,6 +533,106 @@ function renderMarkdownTableRow(cells: string[]) {
 
 function escapeMarkdownTableCell(cell: string) {
   return cell.replace(/\|/g, '\\|');
+}
+
+function isSimpleTableStart(lines: string[], index: number) {
+  return simpleTableColumns(lines[index] ?? '').length > 1 &&
+    !isGridSeparator(lines[index] ?? '') &&
+    (lines[index + 1] ?? '').trim().length > 0 &&
+    !isSimpleTableSeparator(lines[index + 1] ?? '');
+}
+
+function isSimpleTableSeparator(line: string) {
+  return simpleTableColumns(line).length > 1;
+}
+
+function simpleTableColumns(line: string) {
+  if (!/^=+(?:\s{2,}=+)+\s*$/.test(line)) {
+    return [];
+  }
+
+  const columns: Array<{ start: number; end: number }> = [];
+  const matches = line.matchAll(/=+/g);
+
+  for (const match of matches) {
+    const value = match[0];
+    const start = match.index ?? 0;
+
+    if (value.length >= 2) {
+      columns.push({ start, end: start + value.length });
+    }
+  }
+
+  return columns;
+}
+
+function readSimpleTable(lines: string[], start: number, referenceLinks: ReferenceLinks) {
+  const columns = simpleTableColumns(lines[start] ?? '');
+  const headerLines: string[] = [];
+  const bodyLines: string[] = [];
+  let cursor = start + 1;
+  let end = start;
+
+  while (cursor < lines.length && !isSimpleTableSeparator(lines[cursor] ?? '')) {
+    headerLines.push(lines[cursor] ?? '');
+    cursor += 1;
+  }
+
+  if (!isSimpleTableSeparator(lines[cursor] ?? '')) {
+    return { end: start, markdown: [lines[start] ?? ''] };
+  }
+
+  cursor += 1;
+
+  while (cursor < lines.length && !isSimpleTableSeparator(lines[cursor] ?? '')) {
+    const line = lines[cursor] ?? '';
+    if (line.trim() === '') {
+      break;
+    }
+
+    bodyLines.push(line);
+    cursor += 1;
+  }
+
+  if (isSimpleTableSeparator(lines[cursor] ?? '')) {
+    end = cursor;
+  } else {
+    end = cursor - 1;
+  }
+
+  const header = mergeSimpleTableLines(headerLines, columns, referenceLinks);
+  const bodyRows = bodyLines.map((line) => parseSimpleTableLine(line, columns, referenceLinks));
+
+  return {
+    end,
+    markdown: [
+      '',
+      renderMarkdownTableRow(header),
+      renderMarkdownTableRow(header.map(() => '---')),
+      ...bodyRows.map(renderMarkdownTableRow),
+      ''
+    ]
+  };
+}
+
+function mergeSimpleTableLines(lines: string[], columns: Array<{ start: number; end: number }>, referenceLinks: ReferenceLinks) {
+  const cells = columns.map(() => '');
+
+  for (const line of lines) {
+    parseSimpleTableLine(line, columns, referenceLinks).forEach((cell, index) => {
+      cells[index] = [cells[index], cell].filter(Boolean).join('<br>');
+    });
+  }
+
+  return cells;
+}
+
+function parseSimpleTableLine(line: string, columns: Array<{ start: number; end: number }>, referenceLinks: ReferenceLinks) {
+  return columns.map((column, index) => {
+    const nextColumn = columns[index + 1];
+    const end = nextColumn ? nextColumn.start : undefined;
+    return convertInlineMarkup(line.slice(column.start, end).trim(), referenceLinks);
+  });
 }
 
 function headingLevel(marker: string, levels: Map<string, number>, create: () => number) {

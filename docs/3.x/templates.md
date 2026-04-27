@@ -51,9 +51,8 @@ one is used to execute statements such as for-loops, the latter outputs the
 result of an expression.
 
 
-> **To experiment with Twig, you can use the `Twig Playground**
+> **To experiment with Twig, you can use the [Twig Playground](https://twig.symfony.com/play).**
 >
-> <https://twig.symfony.com/play>`_.
 >
 
 ## Third-party Integrations
@@ -92,18 +91,18 @@ variables can be manipulated and displayed in the template.
 Twig tries to abstract PHP types as much as possible and works with a few basic
 types, supported by `filters`, `functions`, and `tests` among others:
 
-===================  ===============================
-Twig Type            PHP Type
-===================  ===============================
-string               A string or a Stringable object
-number               An integer or a float
-boolean              `true` or `false`
-null                 `null`
-iterable (mapping)   An array
-iterable (sequence)  An array
-iterable (object)    An iterable object
-object               An object
-===================  ===============================
+
+| Twig Type | PHP Type |
+| --- | --- |
+| string | A string or a Stringable object |
+| number | An integer or a float |
+| boolean | `true` or `false` |
+| null | `null` |
+| iterable (mapping) | An array |
+| iterable (sequence) | An array |
+| iterable (object) | An iterable object |
+| object | An object |
+
 
 The `iterable` and `object` types expose attributes you can access via the
 dot (`.`) operator:

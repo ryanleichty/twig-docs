@@ -9,8 +9,7 @@ vue: false
 
 # ``inky_to_html``
 
-The `inky_to_html` filter processes an `inky email template
-<https://github.com/foundation/inky>`_:
+The `inky_to_html` filter processes an [inky email template](https://github.com/foundation/inky):
 
 
 ```twig

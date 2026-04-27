@@ -65,8 +65,7 @@ they won't be generated when templates are already cached.
 
 > **If you want to manage the deprecation notices from your PHPUnit tests, have**
 >
-> a look at the `symfony/phpunit-bridge
-> <https://github.com/symfony/phpunit-bridge>`_ package, which eases the
+> a look at the [symfony/phpunit-bridge](https://github.com/symfony/phpunit-bridge) package, which eases the
 > process.
 >
 

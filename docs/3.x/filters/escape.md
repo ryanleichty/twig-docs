@@ -87,8 +87,7 @@ documents:
 
 Note that doing contextual escaping in HTML documents is hard and choosing the
 right escaping strategy depends on a lot of factors. Please, read related
-documentation like `the OWASP prevention cheat sheet
-<https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.md>`_
+documentation like [the OWASP prevention cheat sheet](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.md)
 to learn more about this topic.
 
 
