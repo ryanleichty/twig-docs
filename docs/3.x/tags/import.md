@@ -1,6 +1,6 @@
 ---
 title: "``import``"
-source: "https://github.com/twigphp/Twig/blob/ecb310e129f549daa3424f6565520bcc807d16f3/doc/tags/import.rst"
+source: "https://github.com/twigphp/Twig/blob/99d95dd6b8b0cc3c2397d15d45a4bb87eff89ddc/doc/tags/import.rst"
 upstreamPath: "doc/tags/import.rst"
 editLink: true
 vue: false

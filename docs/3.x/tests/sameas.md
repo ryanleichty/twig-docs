@@ -1,6 +1,6 @@
 ---
 title: "``same as``"
-source: "https://github.com/twigphp/Twig/blob/ecb310e129f549daa3424f6565520bcc807d16f3/doc/tests/sameas.rst"
+source: "https://github.com/twigphp/Twig/blob/99d95dd6b8b0cc3c2397d15d45a4bb87eff89ddc/doc/tests/sameas.rst"
 upstreamPath: "doc/tests/sameas.rst"
 editLink: true
 vue: false

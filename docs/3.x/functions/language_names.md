@@ -1,6 +1,6 @@
 ---
 title: "``language_names``"
-source: "https://github.com/twigphp/Twig/blob/ecb310e129f549daa3424f6565520bcc807d16f3/doc/functions/language_names.rst"
+source: "https://github.com/twigphp/Twig/blob/99d95dd6b8b0cc3c2397d15d45a4bb87eff89ddc/doc/functions/language_names.rst"
 upstreamPath: "doc/functions/language_names.rst"
 editLink: true
 vue: false

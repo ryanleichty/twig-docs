@@ -1,6 +1,6 @@
 ---
 title: "``currency_symbol``"
-source: "https://github.com/twigphp/Twig/blob/ecb310e129f549daa3424f6565520bcc807d16f3/doc/filters/currency_symbol.rst"
+source: "https://github.com/twigphp/Twig/blob/99d95dd6b8b0cc3c2397d15d45a4bb87eff89ddc/doc/filters/currency_symbol.rst"
 upstreamPath: "doc/filters/currency_symbol.rst"
 editLink: true
 vue: false

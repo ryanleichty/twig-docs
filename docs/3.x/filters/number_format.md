@@ -1,6 +1,6 @@
 ---
 title: "``number_format``"
-source: "https://github.com/twigphp/Twig/blob/ecb310e129f549daa3424f6565520bcc807d16f3/doc/filters/number_format.rst"
+source: "https://github.com/twigphp/Twig/blob/99d95dd6b8b0cc3c2397d15d45a4bb87eff89ddc/doc/filters/number_format.rst"
 upstreamPath: "doc/filters/number_format.rst"
 editLink: true
 vue: false
